@@ -17,6 +17,8 @@ class Worker(models.Model):
     email = models.EmailField(blank=False)
     qualification = models.TextField()
     experience = models.IntegerField(validators=[MinValueValidator(0)])
+    isFavorite = models.BooleanField(default=False)
+    contact_no = models.CharField(blank=True, null=True, max_length=10)
     departments = models.ForeignKey(Department, on_delete = models.CASCADE)
 
     def __str__(self):

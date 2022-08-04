@@ -4,7 +4,8 @@ from ..models import Orders, Hire, OrderTransection
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Orders
-        fields = "__all__"
+        fields = ('id', 'date', 'total', 'shipping_time', 'prod_quantity','products',)
+        depth = 1
 
 
 class HireSerializer(serializers.ModelSerializer):

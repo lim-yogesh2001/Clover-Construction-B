@@ -7,9 +7,10 @@ from depAndemp.models import Worker
 
 class Orders(models.Model):
     ship_time = datetime.now() + timedelta(hours=2)
-    date = models.DateField()
+    date = models.DateField(default=datetime.now())
     total = models.IntegerField(default=0)
     status = models.BooleanField(default= False)
+    prod_quantity = models.IntegerField(default=0)
     products = models.ForeignKey(Products, on_delete = models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete = models.CASCADE)
     shipping_time = models.DateTimeField(default=ship_time, editable=False, null=True)

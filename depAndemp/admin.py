@@ -9,7 +9,8 @@ class DepartmentAdmin(admin.ModelAdmin):
 class WorkerAdmin(admin.ModelAdmin):
     empty_value_display = '--empty--'
     list_filter = ('departments',)
-    list_display = ('id', 'name', 'address', 'DOB', 'email', 'experience', 'departments', 'image',)
+    list_per_page = 5
+    list_display = ('id', 'name', 'address', 'DOB', 'email', 'experience', 'departments', 'isFavorite', 'contact_no',)
 
 admin.site.register(Department, DepartmentAdmin)
 admin.site.register(Worker, WorkerAdmin)
