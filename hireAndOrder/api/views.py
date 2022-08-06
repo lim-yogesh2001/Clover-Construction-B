@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from ..models import Orders, Hire, OrderTransection
-from .serializer import OrderSerializer, HireSerializer, OrderTransectionSerializer
+from .serializer import OrderGETSerializer, OrderSerializer, HireSerializer, OrderTransectionSerializer
 from user_auth.models import User
 
 @api_view(['GET','POST'])
@@ -11,13 +11,13 @@ def order_api(request, user_id):
         if request.method == "GET":
             user = User.objects.get(id = user_id)
             orders = Orders.objects.filter(user=user_id)
-            serializer = OrderSerializer(orders, many=True)
+            serializer = OrderGETSerializer(orders, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         if request.method == "POST":
             serializer = OrderSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                return Response({"message": "Ordered successfully!"}, status=status.HTTP_201_CREATED)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response({"error": "Something Went Wrong"}, status=status.HTTP_406_NOT_ACCEPTABLE)
     except Orders.DoesNotExist:
         return Response({"error": "Does not Exist"}, status=status.HTTP_404_NOT_FOUND)

@@ -10,9 +10,9 @@ class Orders(models.Model):
     date = models.DateField(default=datetime.now())
     total = models.IntegerField(default=0)
     status = models.BooleanField(default= False)
-    prod_quantity = models.IntegerField(default=0)
+    prod_quantity = models.IntegerField(default=0, null=True, blank=True)
     products = models.ForeignKey(Products, on_delete = models.CASCADE)
-    user = models.ForeignKey(get_user_model(), on_delete = models.CASCADE)
+    user = models.ForeignKey(get_user_model(), null=True, on_delete = models.CASCADE)
     shipping_time = models.DateTimeField(default=ship_time, editable=False, null=True)
 
 
