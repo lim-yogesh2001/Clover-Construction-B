@@ -1,3 +1,4 @@
+from pyexpat import model
 from rest_framework import serializers
 from ..models import Orders, Hire, OrderTransection
 
@@ -16,9 +17,17 @@ class OrderSerializer(serializers.ModelSerializer):
 class HireSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hire
+        fields = ('id', 'worker', 'date_of_hire',)
+        depth = 1
+
+class HirePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hire
         fields = "__all__"
 
 class OrderTransectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderTransection
         fields = "__all__"
+
+

@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from ..models import Orders, Hire, OrderTransection
-from .serializer import OrderGETSerializer, OrderSerializer, HireSerializer, OrderTransectionSerializer
+from .serializer import OrderGETSerializer, OrderSerializer, HireSerializer, OrderTransectionSerializer, HirePostSerializer
 from user_auth.models import User
 
 @api_view(['GET','POST'])
@@ -10,12 +10,12 @@ def order_api(request, user_id):
     try:
         if request.method == "GET":
             user = User.objects.get(id = user_id)
-            orders = Orders.objects.filter(user=user_id)
+            orders = Orders.objects.filter(user=user)
             serializer = OrderGETSerializer(orders, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         if request.method == "POST":
             serializer = OrderSerializer(data=request.data)
-            if serializer.is_valid():
+            if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response({"error": "Something Went Wrong"}, status=status.HTTP_406_NOT_ACCEPTABLE)
@@ -72,3 +72,20 @@ def order_transection_details_api(request, id):
     except OrderTransection.DoesNotExist:
         return Response({"error": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
+
+@api_view(['GET','POST'])
+def hire_api(request, user_id):
+    try:
+        if request.method == "GET":
+            user = User.objects.get(id = user_id)
+            hireworker = Hire.objects.filter(user_id=user)
+            serializer = HireSerializer(hireworker, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        if request.method == "POST":
+            serializer = HirePostSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({"error": "Something Went Wrong"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    except Hire.DoesNotExist:
+        return Response({"error": "Does not Exist"}, status=status.HTTP_404_NOT_FOUND)

@@ -7,7 +7,7 @@ from depAndemp.models import Worker
 
 class Orders(models.Model):
     ship_time = datetime.now() + timedelta(hours=2)
-    date = models.DateField(default=datetime.now())
+    date = models.DateTimeField(default=datetime.now())
     total = models.IntegerField(default=0)
     status = models.BooleanField(default= False)
     prod_quantity = models.IntegerField(default=0, null=True, blank=True)
@@ -26,7 +26,7 @@ class Orders(models.Model):
 class Hire(models.Model):
     worker = models.ForeignKey(Worker, on_delete = models.CASCADE)
     date_of_hire = models.DateTimeField(auto_now=datetime.now())
-    user_id = models.ForeignKey(get_user_model(), on_delete = models.CASCADE)
+    user_id = models.ForeignKey(get_user_model(), on_delete = models.CASCADE, null=True)
 
     def __str__(self):
         return f"{self.worker.name}"
