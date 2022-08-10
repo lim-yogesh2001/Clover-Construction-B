@@ -33,7 +33,6 @@ class Hire(models.Model):
 
 
 class OrderTransection(models.Model):
-    order_id = models.ForeignKey(Orders(), on_delete = models.CASCADE)
     transection_code = models.CharField(max_length=100)
     status = models.BooleanField(default=False)
 
@@ -41,7 +40,6 @@ class OrderTransection(models.Model):
         return f"Order {self.id}"
     
 class HireTransection(models.Model):
-    hire_id = models.ForeignKey(Hire, on_delete = models.CASCADE)
     transection_code = models.CharField(max_length=400)
     status = models.BooleanField(default=False)
 
